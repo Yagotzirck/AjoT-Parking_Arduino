@@ -1,0 +1,5 @@
+# Don't track the file holding private keys.
+# This .gitignore rule was applied after initially pushing the file
+# and executing this command:
+# git update-index --assume-unchanged ESP32_StallsMonitor/connection_settings.cpp
+ESP32_StallsMonitor/connection_settings.cpp
