@@ -267,7 +267,7 @@ static void getDeviceStateFromShadowState(byte* payload, unsigned int length, bo
     fieldsToSend |= (SEND_NUMSTALLS | SEND_STALLS_IDS | SEND_STALLS_PIN_IDS);
   }
 
-  /* If we're responding to the topic "get/accepted", we must get the stalls' status
+  /* If we're responding to the topic "get/accepted", we must send the stalls' status
   ** (free/occupied) as well, in order to update it if it changed
   */
   if(getIfTrue_updateIfFalse)
