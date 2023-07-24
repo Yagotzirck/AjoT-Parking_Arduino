@@ -83,7 +83,7 @@ class ParkingLot{
     }
 
     if(stallStatusChanged)
-      sendDeviceStateToShadow(SEND_STALLS_FREE);
+      sendDeviceStateToShadow(SEND_STALLS_FREE | SEND_STALLS_IDS);
 
 
   }
