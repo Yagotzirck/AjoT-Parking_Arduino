@@ -2,12 +2,11 @@
 #define PARKINGLOT_H
 
 #include <iterator> // For std::forward_iterator_tag
-#include <cstddef>  // For std::ptrdiff_t
 
 #include "ParkingStall.h"
 #include "connection_utils.h"
 #include "shadow_utils.h"
-
+#include "circuit_settings.h"   // For ParkingLotStatus definition
 
 class ParkingLot{
   private:
@@ -43,6 +42,7 @@ class ParkingLot{
   unsigned long lastUpdateTime;
 
   stallId_t numStalls;
+  stallId_t numFreeStalls;
 
   bool openStatus;
 
@@ -54,7 +54,7 @@ class ParkingLot{
   public:
 
   // Constructor
-  ParkingLot(): numStalls{}, lastUpdateTime{}, openStatus{true} {}
+  ParkingLot(): numStalls{}, numFreeStalls{}, lastUpdateTime{}, openStatus{true} {}
 
 
   void updateStalls(){
@@ -66,6 +66,8 @@ class ParkingLot{
     bool stallStatusChanged{false};
     
     lastUpdateTime = currTime;
+
+    numFreeStalls = 0;
 
 
     for(stallId_t i{}; i < numStalls; ++i){
@@ -80,6 +82,8 @@ class ParkingLot{
           stalls[i].isStallFree()? "free" : "occupied"
         );
       }
+
+      numFreeStalls += static_cast<stallId_t>(stalls[i].isStallFree());
     }
 
     if(stallStatusChanged)
@@ -130,9 +134,21 @@ public:
 
 
   // Getters
-  static stallId_t getMaxStalls() { return maxStalls; }
-  stallId_t getNumStalls() const  { return numStalls; }
-  bool isOpen() const             { return openStatus; }
+  static stallId_t getMaxStalls()     { return maxStalls; }
+  stallId_t getNumStalls() const      { return numStalls; }
+  stallId_t getNumFreeStalls() const  { return numFreeStalls; }
+  bool isOpen() const                 { return openStatus; }
+
+  ParkingLotStatus getParkingLotStatus(){
+    if(openStatus){
+      if(getNumFreeStalls())
+        return ParkingLotStatus::Open;
+      else
+        return ParkingLotStatus::Full;
+    }
+    
+    return ParkingLotStatus::Closed;
+  }
 
   // Setters
   void setOpenStatus(bool status) { openStatus = status; }
