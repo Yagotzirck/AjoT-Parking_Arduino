@@ -1,13 +1,14 @@
 #ifndef STATUSLEDSCONTROLLER_H
 #define STATUSLEDSCONTROLLER_H
 
-#include "circuit_settings.h"   // For ParkingLotStatus definition
+#include "shared_types.h"   // For ParkingLotStatus definition
 
 using statusLedPin_t = uint8_t; 
 
 class StatusLedsController{
 private:
-  const statusLedPin_t redLedPin, greenLedPin;
+  static const statusLedPin_t redLedPin{4};
+  static const statusLedPin_t greenLedPin{15};
 
   void turnGreenLedOn(){
     digitalWrite(redLedPin, LOW);
@@ -22,10 +23,7 @@ private:
 
 public:
   // Constructor
-  StatusLedsController(statusLedPin_t redPin, statusLedPin_t greenPin):
-  redLedPin{redPin},
-  greenLedPin{greenPin}
-  {
+  StatusLedsController(){
     pinMode(redLedPin, OUTPUT);
     pinMode(greenLedPin, OUTPUT);
 
