@@ -6,7 +6,7 @@
 #include "ParkingStall.h"
 #include "connection_utils.h"
 #include "shadow_utils.h"
-#include "circuit_settings.h"   // For ParkingLotStatus definition
+#include "shared_types.h"   // For ParkingLotStatus definition
 
 class ParkingLot{
   private:

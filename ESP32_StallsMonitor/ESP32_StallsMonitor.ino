@@ -3,10 +3,9 @@
 
 #include "connection_utils.h"
 #include "shadow_utils.h"
-#include "circuit_settings.h"
 
 ParkingLot parkingLot{};
-StatusLedsController statusLedsController{PIN_LED_RED, PIN_LED_GREEN};
+StatusLedsController statusLedsController{};
  
 void setup()
 {
