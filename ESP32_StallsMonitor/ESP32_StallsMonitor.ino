@@ -2,6 +2,7 @@
 #include "StatusLedsController.h"
 #include "EntranceRequestsController.h"
 #include "LcdController.h"
+#include "ParkingBarController.h"
 
 #include "connection_utils.h"
 #include "shadow_utils.h"
@@ -13,9 +14,7 @@ ParkingLot parkingLot{};
 static StatusLedsController       statusLedsController{};
 static EntranceRequestsController entranceRequestsController{};
 static LcdController              lcdController{};
-
-bool isParkingBarMoving{false};
-
+static ParkingBarController       parkingBarController{};
  
 void setup()
 {
@@ -42,6 +41,7 @@ void loop()
   int              assignedFreeStallId  {parkingLot.getFreeStallId()};
   EntranceRequest  entranceRequest      {entranceRequestsController.checkRequests()};
 
+  bool isBarMoving = parkingBarController.loop(entranceRequest, parkingLotStatus);
   statusLedsController.showParkingLotStatus(parkingLotStatus);
   lcdController.showStatus(numFreeStalls, assignedFreeStallId, entranceRequest, parkingLotStatus);
 }
