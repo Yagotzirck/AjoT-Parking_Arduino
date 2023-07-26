@@ -150,6 +150,16 @@ public:
     return ParkingLotStatus::Closed;
   }
 
+  int getFreeStallId() const {
+    if(numFreeStalls == 0)
+      return -1;
+
+    for(stallId_t i{}; i < numStalls; ++i)
+      if(stalls[i].isStallFree())
+        return static_cast<int>(stalls[i].getStallId());
+  }
+
+
   // Setters
   void setOpenStatus(bool status) { openStatus = status; }
 

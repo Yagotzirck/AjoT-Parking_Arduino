@@ -3,10 +3,10 @@
 
 #include "shared_types.h"   // For ParkingLotStatus definition
 
-using statusLedPin_t = uint8_t; 
-
 class StatusLedsController{
 private:
+  using statusLedPin_t = uint8_t; 
+
   static const statusLedPin_t redLedPin{4};
   static const statusLedPin_t greenLedPin{15};
 

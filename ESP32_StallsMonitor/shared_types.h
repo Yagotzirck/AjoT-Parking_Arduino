@@ -7,4 +7,10 @@ enum class ParkingLotStatus {
   Closed
 };
 
+enum class EntranceRequest {
+  Enter,
+  Exit,
+  NoRequest
+};
+
 #endif

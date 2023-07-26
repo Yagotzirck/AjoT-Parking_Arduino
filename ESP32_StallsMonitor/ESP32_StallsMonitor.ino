@@ -1,11 +1,21 @@
 #include "ParkingLot.h"
 #include "StatusLedsController.h"
+#include "EntranceRequestsController.h"
+#include "LcdController.h"
 
 #include "connection_utils.h"
 #include "shadow_utils.h"
 
+#include "shared_types.h"
+
 ParkingLot parkingLot{};
-StatusLedsController statusLedsController{};
+
+static StatusLedsController       statusLedsController{};
+static EntranceRequestsController entranceRequestsController{};
+static LcdController              lcdController{};
+
+bool isParkingBarMoving{false};
+
  
 void setup()
 {
@@ -17,14 +27,21 @@ void setup()
   connectNTP();
   connectMQTT();
   getShadowState();
+
+  lcdController.init();
 }
  
 void loop()
 {
   check_connection();
-
   parkingLot.updateStalls();
-  statusLedsController.showParkingLotStatus(parkingLot.getParkingLotStatus());
-
   client_loop();
+
+  ParkingLotStatus parkingLotStatus     {parkingLot.getParkingLotStatus()};
+  int              numFreeStalls        {parkingLot.getNumFreeStalls()};
+  int              assignedFreeStallId  {parkingLot.getFreeStallId()};
+  EntranceRequest  entranceRequest      {entranceRequestsController.checkRequests()};
+
+  statusLedsController.showParkingLotStatus(parkingLotStatus);
+  lcdController.showStatus(numFreeStalls, assignedFreeStallId, entranceRequest, parkingLotStatus);
 }
