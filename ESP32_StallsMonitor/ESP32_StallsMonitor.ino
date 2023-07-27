@@ -3,6 +3,7 @@
 #include "EntranceRequestsController.h"
 #include "LcdController.h"
 #include "ParkingBarController.h"
+#include "BuzzerController.h"
 
 #include "connection_utils.h"
 #include "shadow_utils.h"
@@ -15,6 +16,7 @@ static StatusLedsController       statusLedsController{};
 static EntranceRequestsController entranceRequestsController{};
 static LcdController              lcdController{};
 static ParkingBarController       parkingBarController{};
+static BuzzerController           buzzerController{};
  
 void setup()
 {
@@ -44,4 +46,5 @@ void loop()
   bool isBarMoving = parkingBarController.loop(entranceRequest, parkingLotStatus);
   statusLedsController.showParkingLotStatus(parkingLotStatus);
   lcdController.showStatus(numFreeStalls, assignedFreeStallId, entranceRequest, parkingLotStatus);
+  buzzerController.loop(isBarMoving);
 }
